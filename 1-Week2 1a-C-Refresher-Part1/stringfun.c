@@ -10,6 +10,16 @@
 
 // TODO: #1 What is the purpose of providing prototypes for
 //          the functions in this code module
+//The purpose of providing prototypes for the functions is to 
+//inform the compiler about the function's signature including
+//name, return type, and parameters before the actual function
+//definition is encountered. 
+//It tells the return types of the data that the function will return.
+//It tells the number of arguments passed to the function.
+//It tells the data types of each of the passed arguments.
+//It tells the order in which the arguments are passed to the function.
+//It specifies the input/output interface to the function.
+
 void  usage(char *);
 int   count_words(char *);
 void  reverse_string(char *);
@@ -41,12 +51,27 @@ void usage(char *exename){
 //      so just 'return wc;' 
 int count_words(char *str){
     // Suggested local variables
-    int len;
-    int wc;
-    bool word_start;
+    int len = strlen(str);
+    int wc = 0;
+    bool word_start = false;
 
     // Please implement
-    return 0;
+    for (int i = 0; i < len; i++){
+        char current_char = str[i];
+
+        if (!word_start){
+            if(current_char != SPACE_CHAR){
+                wc++;  
+                word_start = true;        
+            }
+        }
+        else{
+            if(current_char == SPACE_CHAR){
+                word_start = false;
+            }
+        }    
+    }
+    return wc;
 }
 
 //reverse_string() algorithm
@@ -66,11 +91,20 @@ int count_words(char *str){
 //  3. When the loop above terminates, the string should be reversed in place
 void  reverse_string(char *str){
     // Suggested local variables
-    int end_idx;        //should be length of string - 1
-    int start_idx;
+    int end_idx = strlen(str) - 1;        //should be length of string - 1
+    int start_idx = 0;
     char tmp_char;
 
     // Please implement
+    // Swap characters
+    while (end_idx > start_idx){
+        tmp_char = str[start_idx];
+        str[start_idx] = str[end_idx];
+        str[end_idx] = tmp_char;
+
+        start_idx++;
+        end_idx--;
+    }
 
     return;
 }
@@ -112,13 +146,35 @@ void  reverse_string(char *str){
 // 4. fun (3)
 void  word_print(char *str){
     //suggested local variables
-    int len;            //length of string - aka strlen(str);
-    int last_char_idx;  //index of last char - strlen(str)-1;
+    int len = strlen(str);            //length of string - aka strlen(str);
+    int last_char_idx = len - 1;  //index of last char - strlen(str)-1;
     int wc = 0;         //counts words
     int wlen = 0;       //length of current word
     bool word_start = false;    //am I at the start of a new word
 
     // Please implement
+    for (int i = 0; i < len; i++){
+        char current_char = str[i];
+        if(!word_start){
+            if(current_char != SPACE_CHAR) {
+                wc++;
+                word_start = true;
+                wlen = 0;
+                printf("%d. ", wc);
+            }
+        }
+        else{
+            if(current_char != SPACE_CHAR){
+                printf("%c", current_char);
+                wlen++;
+            }
+            if(current_char == SPACE_CHAR || i == last_char_idx){
+                printf(" (%d)\n", wlen);
+                word_start = false;
+                wlen = 0;
+            }
+        }
+    }
 }
 
 
@@ -156,20 +212,22 @@ int main(int argc, char *argv[]){
     }
 
     input_string = argv[2];
-    //ALL ARGS PROCESSED - The string you are working with is
+    //ALL ARGS PROCESSED - The string you are working with
     //is the third arg or in arv[2]
     
     switch (opt){
         case 'c':
-            int wc = 0;         //variable for the word count
+            //int wc = 0;         //variable for the word count
 
             //TODO: #2. Call count_words, return of the result
             //          should go into the wc variable
+            int wc = count_words(input_string);
             printf("Word Count: %d\n", wc);
             break;
         case 'r':
             //TODO: #3. Call reverse string using input_string
             //          input string should be reversed
+            reverse_string(input_string);
             printf("Reversed string: %s\n", input_string);
 
             //TODO:  #4.  The algorithm provided in the directions 
@@ -177,23 +235,36 @@ int main(int argc, char *argv[]){
             //            characters because the string is reversed 
             //            in place.  Briefly explain why the string 
             //            is reversed in place - place in a comment
+            // The reason for reversing the string in place is to modify
+            // the original string direclty without using any additional
+            // memory. 
             break;
         case 'w':
             printf("Word Print\n----------\n");
-
             //TODO: #5. Call word_print, output should be
             //          printed by that function
+            word_print(input_string);
             break;
 
         //TODO: #6. What is the purpose of the default option here?
         //          Please describe replacing this TODO comment with
         //          your thoughts.
+        // The purpose of the default option here is to exit the program gracefully
+        // when the user entered the wrong values, it will print an error message and
+        // exit the program.
         default:
             usage(argv[0]);
             printf("Invalid option %c provided, exiting!\n", opt);
             exit(1);
     }
+    return 0;
     //TODO: #7. Why did we place a break statement on each case
     //          option, and did not place one on default.  What
     //          would happen if we forgot the break statement?
+    // The reason for placing a break statement on each case option and not 
+    // on the default is to prevent the code from continuing executing. 
+    // When a case matches, the code will only execute the statements 
+    // within that case and exit the switch statement. When no case matches,
+    // it would continue to the default option since it's the last case and there
+    // is no subsequent case to fall through to.
 }
