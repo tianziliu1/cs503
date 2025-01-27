@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-
 #define SPACE_CHAR ' '
 
 //prototypes for functions to handle required functionality
@@ -159,7 +158,7 @@ void  word_print(char *str){
             if(current_char != SPACE_CHAR) {
                 wc++;
                 word_start = true;
-                wlen = 0;
+                wlen = 1;
                 printf("%d. ", wc);
             }
         }
