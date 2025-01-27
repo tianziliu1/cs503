@@ -15,7 +15,7 @@ int  count_words(char *, int, int);
 //add additional prototypes here
 int reverse_string(char *, int, int);
 void word_print(char *, int, int);
-void replace_word(char *, int, char *, char *);
+void replace_word(char *, int, char *, char *, int);
 
 int setup_buff(char *buff, char *user_str, int len){
     //TODO: #4:  Implement the setup buff as per the directions
@@ -36,9 +36,9 @@ int setup_buff(char *buff, char *user_str, int len){
         
 
     while (user_str[i] != '\0' && buff_index < len){
-        if (user_str[i] != ' ' && usr_str[i] != '\t'){
+        if (user_str[i] != ' ' && user_str[i] != '\t'){
             buff[buff_index++] = user_str[i];
-            prev_char = usre_str[i];
+            prev_char = user_str[i];
         }
         else if(prev_char != ' '){
             buff[buff_index++] = ' ';
@@ -91,12 +91,12 @@ int count_words(char *buff, int len, int str_len){
 
 //ADD OTHER HELPER FUNCTIONS HERE FOR OTHER REQUIRED PROGRAM OPTIONS
 
-int reverse_string(char *str) {
-    int len = strlen(str);
-    for (int i = 0; i < len/2; i++){
-        char temp = str[i];
-        str[i] = str[len - i - 1];
-        str[len - i - 1] = temp;
+void reverse_string(char *str, int len) {
+    int end = len - 1;
+    for (int start = 0; start < end; start++, end--){
+        char temp = str[start];
+        str[start] = str[end];
+        str[end]= temp;
     }
     return; 
 }
@@ -134,28 +134,23 @@ int word_print(char *buff, int buff_len, int str_len){
 
 // Word Replace
 // To replce the first occurrence of a word in the string
-int replace_word(char *buff, int len, char *str, char *newstr, int newstr_len){
+void replace_word(char *buff, int len, char *str, char *newstr, int newstr_len){
     char *pos = strstr(buff, str);
-    if(pos ==NULL){
+    if(pos == NULL){
+        printf("Word not found in the buffer.\n");
         return 0;
     }
     int idx = pos - buff;
     int str_len = strlen(str);
-    int newstr = strlen(newstr);
-    int newstr_len = strlen(buff) - str_len + newstr_len;
+    int remain_len = len - idx - str_len;
 
-    if(newstr_len > buff_len){
+    if(newstr_len + remain_len > len){
         printf("Buffer overflow error.\n");
         return -1;
     }
-    else{
-        char new_buff[buff_len];
-        strncpy(new_buff, buff, idx);
-        strcpy(new_buff + idx, newstr);
-        strcpy(new_buff + idx + newstr_len, buff + idx + str_len);
-        strncpy(buff, new_buff, buff_len);
-        return 0;
-    }
+    memmove(buff + idx + newstr_len, buff + idx + str_len, remain_len);
+    memcpy(buff + idx, newstr, newstr_len);
+    
 }
 
 
@@ -240,6 +235,11 @@ int main(int argc, char *argv[]){
             break;
         case 'w':
             printf("Word Print\n----------\n");
+            rc = wrod_print(buff, BUFFER_SZ, user_str_len);
+            if(rc < 0){
+                printf("Error printing words, rc = %d\n", rc);
+                exit(2);
+            }
             word_print(buff);
             break;
         //  String replace
