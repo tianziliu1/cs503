@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 
 #define BUFFER_SZ 50
@@ -14,25 +13,44 @@ int  setup_buff(char *, char *, int);
 //prototypes for functions to handle required functionality
 int  count_words(char *, int, int);
 //add additional prototypes here
-void reverse_string(char *);
+int reverse_string(char *, int, int);
 void word_print(char *, int, int);
 void replace_word(char *, int, char *, char *);
 
 int setup_buff(char *buff, char *user_str, int len){
     //TODO: #4:  Implement the setup buff as per the directions
-    int user_str_len = strlen(user_str);
+    int user_str_len = 0;
+    int buff_index = 0;
+    int i = 0;
+    char prev_char = 0;
 
-    if(user_str_len >= len){
-        strncpy(buff, user_str, len - 1);
-        buff[len - 1] = '\0';
-        return len - 1;
-    }
-    else{
-        strcpy(buff, user_str);
-        return user_str_len;
+    while (user_str[user_str_len] != '\0'){
+        user_str_len++;
     }
 
-    //return 0; //for now just so the code compiles. 
+//If the user supplied string is too large, return -1
+    if(user_str_len > BUFFER_SZ){
+        return -1;
+    }
+//return -2 for any other error
+        
+
+    while (user_str[i] != '\0' && buff_index < len){
+        if (user_str[i] != ' ' && usr_str[i] != '\t'){
+            buff[buff_index++] = user_str[i];
+            prev_char = usre_str[i];
+        }
+        else if(prev_char != ' '){
+            buff[buff_index++] = ' ';
+            prev_char =  ' ';
+        }
+        i++;
+    }
+
+    while (buff_index < len){
+        buff[buff_index++] = '.';
+    }
+    return user_str_len;
 }
 
 void print_buff(char *buff, int len){
@@ -71,13 +89,16 @@ int count_words(char *buff, int len, int str_len){
     return wc;
 }
 
-void reverse_string(char *str) {
+//ADD OTHER HELPER FUNCTIONS HERE FOR OTHER REQUIRED PROGRAM OPTIONS
+
+int reverse_string(char *str) {
     int len = strlen(str);
     for (int i = 0; i < len/2; i++){
         char temp = str[i];
         str[i] = str[len - i - 1];
         str[len - i - 1] = temp;
     }
+    return; 
 }
 
 int word_print(char *buff, int buff_len, int str_len){
@@ -111,6 +132,7 @@ int word_print(char *buff, int buff_len, int str_len){
     return word_count;
 }
 
+// Word Replace
 // To replce the first occurrence of a word in the string
 int replace_word(char *buff, int len, char *str, char *newstr, int newstr_len){
     char *pos = strstr(buff, str);
@@ -136,7 +158,7 @@ int replace_word(char *buff, int len, char *str, char *newstr, int newstr_len){
     }
 }
 
-//ADD OTHER HELPER FUNCTIONS HERE FOR OTHER REQUIRED PROGRAM OPTIONS
+
 
 
 int main(int argc, char *argv[]){
@@ -220,8 +242,9 @@ int main(int argc, char *argv[]){
             printf("Word Print\n----------\n");
             word_print(buff);
             break;
+        //  String replace
         case 'x':
-            printf("Word Replace");
+            printf("Word Replace: %s\n", newbuff);
             break;
         default:
             usage(argv[0]);
