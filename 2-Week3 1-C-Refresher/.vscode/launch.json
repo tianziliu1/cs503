@@ -10,7 +10,7 @@
       "program": "${cs503}/stringfun",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${cs503/1-Week2 1a-C-Refresher-Part1}",
+      "cwd": "${cs503}",
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
