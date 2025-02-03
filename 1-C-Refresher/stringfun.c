@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <stdbool.h>
 
 #define BUFFER_SZ 50
 
@@ -13,9 +13,9 @@ int  setup_buff(char *, char *, int);
 //prototypes for functions to handle required functionality
 int  count_words(char *, int, int);
 //add additional prototypes here
-int reverse_string(char *, int, int);
-void word_print(char *, int, int);
-void replace_word(char *, int, char *, char *, int);
+void reverse_string(char *, int);
+int word_print(char *, int, int);
+int replace_word(char *, int, char *, char *, int);
 
 int setup_buff(char *buff, char *user_str, int len){
     //TODO: #4:  Implement the setup buff as per the directions
@@ -134,7 +134,7 @@ int word_print(char *buff, int buff_len, int str_len){
 
 // Word Replace
 // To replce the first occurrence of a word in the string
-void replace_word(char *buff, int len, char *str, char *newstr, int newstr_len){
+int replace_word(char *buff, int len, char *str, char *newstr, int newstr_len){
     char *pos = strstr(buff, str);
     if(pos == NULL){
         printf("Word not found in the buffer.\n");
@@ -230,21 +230,28 @@ int main(int argc, char *argv[]){
         //TODO:  #5 Implement the other cases for 'r' and 'w' by extending
         //       the case statement options
         case 'r':
-            reverse_string(buff);
+            reverse_string(buff, user_str_len);
             printf("Reversed string: %s\n", buff);
             break;
         case 'w':
             printf("Word Print\n----------\n");
-            rc = wrod_print(buff, BUFFER_SZ, user_str_len);
+            rc = word_print(buff, BUFFER_SZ, user_str_len);
             if(rc < 0){
                 printf("Error printing words, rc = %d\n", rc);
                 exit(2);
             }
-            word_print(buff);
             break;
         //  String replace
         case 'x':
-            printf("Word Replace: %s\n", newbuff);
+            if(argc != 5){
+            printf("Usage: %s -x \"sample string\" old_str new_str\n", argv[0]);
+                exit(1);
+            }
+            char *old_str = argv[3];
+            char *new_str = argv[4];
+            int new_str_len = strlen(new_str);
+            replace_word(buff, BUFFER_SZ, old_str, new_str, new_str_len);
+            printf("Modified String: %s\n", buff);
             break;
         default:
             usage(argv[0]);
