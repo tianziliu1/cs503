@@ -1,16 +1,13 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 "configurations": [
     {
-      "name": "(gdb) ./stringfun",
+      "name": "(gdb) ACTIVE FILE",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${cs503}/{string.fun}",
+      "program": "${fileDirname}/${fileBasenameNoExtension}",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${cs503}",
+      "cwd": "${fileDirname}",
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",

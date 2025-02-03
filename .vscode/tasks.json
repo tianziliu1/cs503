@@ -10,7 +10,7 @@
         "isDefault": true
       },
       "options":{
-        "cwd": "${cs503}"
+        "cwd": "${fileDirname}"
       },
       "problemMatcher": ["$gcc"],
       "detail": "Runs the 'make' command to build the project."

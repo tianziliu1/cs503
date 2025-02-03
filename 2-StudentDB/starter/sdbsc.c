@@ -117,7 +117,7 @@ int get_student(int fd, int id, student_t *s)
 int add_student(int fd, int id, char *fname, char *lname, int gpa)
 {
     // TODO
-    printf("todo: add student id %d name %s %s with gpa %s\n", id, fname, lname, gpa);
+    //printf("todo: add student id %d name %s %s with gpa %d\n", id, fname, lname, gpa);
     
     student_t mystudent = {0};
     off_t myoffset;
@@ -139,7 +139,7 @@ int add_student(int fd, int id, char *fname, char *lname, int gpa)
 
     // student id = size of the student (64 bytes) STUDENT_RECORD_SIZE
     myoffset = id * STUDENT_RECORD_SIZE;
-    printf("need to add studnet id %d at offset %ld\n", id, myoffset);
+    //printf("need to add studnet id %d at offset %ld\n", id, myoffset);
 
     // todo - populate the student struct for writing to db
     mystudent.id = id;
@@ -154,7 +154,7 @@ int add_student(int fd, int id, char *fname, char *lname, int gpa)
         return(ERR_DB_FILE);
     }
 
-    printf("advanced to %ld\n", lseek_result);
+    //printf("advanced to %ld\n", lseek_result);
 
     // todo actually write the record
     ssize_t bytes_written = write(fd, &mystudent, STUDENT_RECORD_SIZE);
@@ -439,7 +439,7 @@ int compress_db(int fd)
     lseek(fd, 0, SEEK_SET);
     bytes_read = read(fd, &mystudent, STUDENT_RECORD_SIZE);
 
-    while(bytes_read = STUDENT_RECORD_SIZE){
+    while((bytes_read) = STUDENT_RECORD_SIZE){
         if(memcmp(&mystudent, &EMPTY_STUDENT_RECORD, sizeof(student_t)) != 0){
             bytes_written = write(temp_fd, &mystudent, STUDENT_RECORD_SIZE);
             if(bytes_written != STUDENT_RECORD_SIZE){
