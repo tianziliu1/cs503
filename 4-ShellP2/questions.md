@@ -34,11 +34,7 @@
 
 - Find and describe three commonly used signals (e.g., SIGKILL, SIGTERM, SIGINT). What are their typical use cases?
 
-    > **Answer**:  _start here_ SIGKILL is used to kill a process. It cannot be caught, blocked, or ignored and typically is used as a last resort when a process becomes unresponsive or needs to be terminated without allowing it to perform any cleanup operations.
-
-    SIGTERM is to terminate a process. It can be caught and handled by the program. It gives it a chance to save data and clean up resources before exiting. 
-
-    SIGINT is a signal that the operating system sends to a process when the user presses Ctrl+C. It's a request for the process to interrupt what it's doing and terminate. It terminates immediately. A program can catch the SIGINT signal and handle it in a custom way though.
+    > **Answer**:  _start here_ SIGKILL is used to kill a process. It cannot be caught, blocked, or ignored and typically is used as a last resort when a process becomes unresponsive or needs to be terminated without allowing it to perform any cleanup operations. SIGTERM is to terminate a process. It can be caught and handled by the program. It gives it a chance to save data and clean up resources before exiting. SIGINT is a signal that the operating system sends to a process when the user presses Ctrl+C. It's a request for the process to interrupt what it's doing and terminate. It terminates immediately. A program can catch the SIGINT signal and handle it in a custom way though.
 
 - What happens when a process receives SIGSTOP? Can it be caught or ignored like SIGINT? Why or why not?
 
