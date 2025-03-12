@@ -41,8 +41,8 @@
                      %%%%%%%%%%%%%%%%%%% %%%%%% %%                          %%%%%%%%%%%%%@          \n\
 "
 
-
-extern void print_dragon(){
+extern void print_dragon()
+{
   // TODO implement 
     printf("%s", DRAGON_ART);
 }

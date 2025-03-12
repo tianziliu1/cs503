@@ -6,8 +6,28 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/wait.h>
-#include <errno.h>
+
 #include "dshlib.h"
+
+
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+
+#include "dshlib.h"
+
+/**** 
+ **** FOR REMOTE SHELL USE YOUR SOLUTION FROM SHELL PART 3 HERE
+ **** THE MAIN FUNCTION CALLS THIS ONE AS ITS ENTRY POINT TO
+ **** EXECUTE THE SHELL LOCALLY
+ ****
+ */
 
 /*
  * Implement your exec_local_cmd_loop function by building a loop that prompts the 
@@ -52,6 +72,7 @@
  *  Standard Library Functions You Might Want To Consider Using (assignment 2+)
  *      fork(), execvp(), exit(), chdir()
  */
+
 int last_return_code = 0;
 
 // Allocate memory for the command buffer
@@ -179,7 +200,7 @@ Built_In_Cmds exec_built_in_cmd(cmd_buff_t *cmd) {
             }
         }
         return BI_EXECUTED;
-    } else if (cmd_type == BI_RC) {
+    } else if (cmd_type == BI_CMD_RC) {
         printf("Last return code: %d\n", last_return_code);
         return BI_EXECUTED;
     } else if (cmd_type == BI_CMD_DRAGON) {

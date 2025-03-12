@@ -119,3 +119,50 @@ EOF
     # Check exact match
     [ "$stripped_output" = "$expected_output" ]
 }
+
+@test "Test single pipe: ls | wc -l" {
+    run ./dsh <<< "ls | wc -l"
+    [[ $status -eq 0 ]]
+}
+
+@test "Test multiple pipes: cat file.txt | grep 'word' | wc -l" {
+    run ./dsh <<< "cat file.txt | grep 'word' | wc -l"
+    [[ $status -eq 0 ]]
+}
+
+@test "Test empty pipeline: | grep" {
+    run ./dsh <<< "| grep"
+    [[ $output =~ "error: invalid command" ]]
+    [[ $status -ne 0 ]]
+}
+
+@test "Test too many pipes" {
+    run ./dsh <<< "cmd1 | cmd2 | cmd3 | cmd4 | cmd5 | cmd6 | cmd7 | cmd8 | cmd9"
+    [[ $output =~ "error: piping limited to 8 commands" ]]
+}
+
+@test "Check SH_PROMPT" {
+  [ "$SH_PROMPT" = "dsh3> " ]
+}
+
+@test "Check EXIT_CMD" {
+  [ "$EXIT_CMD" = "exit" ]
+}
+
+@test "Check build_cmd_buff function" {
+  cmd_line='ls -l'
+  cmd_buff_alloc
+  build_cmd_buff "$cmd_line" "$_cmd_buff"
+  [ "${argv[0]}" = "ls" ]
+  [ "${argv[1]}" = "-l" ]
+  free_cmd_buff "$_cmd_buff"
+}
+
+@test "Check exec_built_in_cmd function" {
+  cmd_line='exit'
+  cmd_buff_alloc
+  build_cmd_buff "$cmd_line" "$_cmd_buff"
+  run exec_built_in_cmd "$_cmd_buff"
+  [ "$status" -eq 0 ]
+  free_cmd_buff 
+}  
