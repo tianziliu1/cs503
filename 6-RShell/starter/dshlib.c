@@ -280,8 +280,6 @@ int exec_local_cmd_loop() {
             }
         }
     }
-
-
     //clear_cmd_buff(&clist);
     free_cmd_list(&clist);
 
